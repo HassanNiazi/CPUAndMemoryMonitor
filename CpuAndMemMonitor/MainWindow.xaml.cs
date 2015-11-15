@@ -26,6 +26,7 @@ namespace CpuAndMemMonitor
         PerformanceCounter perfCountCPULoad = new PerformanceCounter("Processor Information", "% Processor Time", "_Total");
         PerformanceCounter perfCountCPUTemp = new PerformanceCounter("Thermal Zone Information", "Temperature", @"\_TZ.TZS0");
         PerformanceCounter perfCountSysMem = new PerformanceCounter("Memory", "Available MBytes");
+        PerformanceCounter perfCountFreq = new PerformanceCounter("Processor Information", "Processor Frequency", "_Total");
         Thread updateStats;
         SpeechSynthesizer jarvis = new SpeechSynthesizer();
         System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
@@ -75,7 +76,7 @@ namespace CpuAndMemMonitor
                         CPUTemp.Text = ((int)(perfCountCPUTemp.NextValue() - 273)).ToString() + "C";
                         if (perfCountCPUTemp.NextValue()-273 > 85)
                             jarvis.SpeakAsync("Warning!!! High CPU temperature Reached");
-                        
+                        CPUFreq.Text = perfCountFreq.NextValue().ToString() + "MHz";
                         Memory.Text = ((int)perfCountSysMem.NextValue()).ToString() + "MB";
                     }));
                 }
